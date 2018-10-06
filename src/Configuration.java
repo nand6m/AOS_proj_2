@@ -15,7 +15,7 @@ public class Configuration {
     static ArrayList<Integer> portList = new ArrayList<Integer>();      //List of all port numbers
     static ArrayList<String> hostNames = new ArrayList<String>();      //List of all hosts
     static int noOfBroadcast;               //Specifies number of times broadcast operations need to executed
-    public static Random rand = new Random(System.currentTimeMillis());
+ 
     
     public static void readFile() {
         String fileName = " ";//Provide path of config file
