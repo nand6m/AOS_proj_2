@@ -6,6 +6,21 @@ public class spanningTreeNode implements MsgListener
 	int nodeId;
 	//Map to get sender from nodeId
 	HashMap<int, sender> senders;
+
+	public void addSender(int neighbor, sender s)
+	{
+		senders.put(neighbor, s);
+	}	
+
+	public spanningTreeNode(int myNode)
+	{
+		this.nodeId = myNode;
+		this.senders = new HashMap<int, sender>();
+		parent = -1;
+		children = new ArrayList<int>();
+		ackReceived = 0;
+	}
+
 	public spanningTreeNode(int myNode, Hashmap<int, sender> neighbors)
 	{
 		this.nodeId = myNode;
