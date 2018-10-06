@@ -1,6 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest};
+enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest, broadcast};
 public class StreamMsg implements Serializable {
 	int sourceNodeId;	
 	MsgType type;
