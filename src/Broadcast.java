@@ -50,13 +50,13 @@ public class Broadcast implements MsgListener, Broadcaster
 
             if(myNode.children.size() == 0)
             {
-                sendOkay(msg);
+                sendconvergeCast_ack(msg);
             }
 		}
-		else if(m.type== MsgType.okay)
+		else if(m.type== MsgType.convergeCast_ack)
 		{
             // Acknowledgement received -> Increment counter value in counterHashMap where Key = m.sourceNodeId (Main source)
-            // If counter value reaches maximum send 'okay' message to it's immediate neighbours (i.e. ArrayList Children) 
+            // If counter value reaches maximum send 'convergeCast_ack' message to it's immediate neighbours (i.e. ArrayList Children) 
             // and reset counter to 0
 
             counterValue = counterHashMap.get(m.sourceNodeId)+1;
@@ -69,7 +69,7 @@ public class Broadcast implements MsgListener, Broadcaster
             if(counterValue == max_counterValue)
             {
                 counterHashMap.put(m.sourceNodeId, 0);
-                sendOkay(msg);
+                sendconvergeCast_ack(msg);
             }
         }
 		//Return any value for now
@@ -102,9 +102,9 @@ public class Broadcast implements MsgListener, Broadcaster
 
 	}
 
-    void sendOkay(StreamMsg m)
+    void sendconvergeCast_ack(StreamMsg m)
     {
-        m.type = MsgType.okay;
+        m.type = MsgType.convergeCast_ack;
         m.message = "";
         m.immediateSourceNodeId = myNode.nodeId;
         int immediate_source = immediateSourceHashMap.get(m.sourceNodeId);
@@ -125,9 +125,9 @@ public class Broadcast implements MsgListener, Broadcaster
 
 Immediate_source = HashMap => Key = Main_source, value = immediate_source
 
-Maintain a counter C(i,j) - HashMap -  Key = Main_source, value = Count_of_Okay_msg in node i for message source j
+Maintain a counter C(i,j) - HashMap -  Key = Main_source, value = Count_of_convergeCast_ack_msg in node i for message source j
 Each counter can have values from 0,1,2.... (neighbours-1)
-The counter is incremented only for 'okay' message
-When the counter reaches it's maximum value (i.e. neighbours-1) for Main_source then it sends okay message to it's Immediate_source node for the corresponding Main_source and resets counter C(i,j) to 0.
+The counter is incremented only for 'convergeCast_ack' message
+When the counter reaches it's maximum value (i.e. neighbours-1) for Main_source then it sends convergeCast_ack message to it's Immediate_source node for the corresponding Main_source and resets counter C(i,j) to 0.
 
 */
