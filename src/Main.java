@@ -6,22 +6,20 @@ public class Main {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 		
-		NIobj =ReadConfigFile.readConfigFile(args[1]);
-		System.out.println(Integer.parseInt(args[0]));
-		NIobj.id =Integer.parseInt(args[0]);
-		 
-		spanningTreeNode stn=new spanningTreeNode(NIobj.id);
-		//BroadCast b= new BroadCast();
-		//kNeighbor kn=new kNeighbor(NIobj.id,NIobj.ClientConnectionCount[NIobj.id],b);
-		System.out.println("Entered");
-		
+		NIobj = ReadConfigFile.readConfigFile(args[1]);
+		NIobj.id = Integer.parseInt(args[0]);
 		for(int i=0;i<NIobj.nodes.size();i++){
 			NIobj.nodeInfo.put(NIobj.nodes.get(i).nodeId, NIobj.nodes.get(i));
 		}
 		
+		spanningTreeNode stn = new spanningTreeNode(NIobj.id);
+		MessageManager.setSpanningTreeNode(stn);
 		 
 		TCPServer server = new TCPServer(NIobj);		
-		TCPClient client = new TCPClient(NIobj, NIobj.id,kn);
-		server.listenforinput(kn);
+		TCPClient client = new TCPClient(NIobj, NIobj.id);
+		server.listenforinput();
+		if(NIobj.id == 1){
+			stn.initiateConstruction();
+		}
 	}
 }

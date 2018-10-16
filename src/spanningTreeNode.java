@@ -1,13 +1,16 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class spanningTreeNode implements MsgListener
 {
 	int parent;
-	ArrayList<int> children;
+	ArrayList<Integer> children;
 	int ackReceived;
 	int nodeId;
 	//Map to get sender from nodeId
-	HashMap<int, sender> senders;
+	HashMap<Integer, Sender> senders;
 
-	public void addSender(int neighbor, sender s)
+	public void addSender(int neighbor, Sender s)
 	{
 		senders.put(neighbor, s);
 	}	
@@ -15,18 +18,18 @@ public class spanningTreeNode implements MsgListener
 	public spanningTreeNode(int myNode)
 	{
 		this.nodeId = myNode;
-		this.senders = new HashMap<int, sender>();
+		this.senders = new HashMap<Integer, Sender>();
 		parent = -1;
-		children = new ArrayList<int>();
+		children = new ArrayList<Integer>();
 		ackReceived = 0;
 	}
 
-	public spanningTreeNode(int myNode, Hashmap<int, sender> neighbors)
+	public spanningTreeNode(int myNode, HashMap<Integer, Sender> neighbors)
 	{
 		this.nodeId = myNode;
 		this.senders = neighbors;
 		parent = -1;
-		children = new ArrayList<int>();
+		children = new ArrayList<Integer>();
 		ackReceived = 0;
 	}
 
@@ -34,7 +37,7 @@ public class spanningTreeNode implements MsgListener
 	{
 		if(m.type == MsgType.PACK)
 		{
-			children.add(m.sender);
+			children.add(m.sourceNodeId);
 			ackReceived++;
 
 		}
@@ -70,7 +73,7 @@ public class spanningTreeNode implements MsgListener
 
 	public void initiateConstruction()
 	{
-		parent = this.NodeId;
+		parent = this.nodeId;
 		sendParentRequests();
 	}
 
@@ -93,8 +96,12 @@ public class spanningTreeNode implements MsgListener
 	void sendParentRequests()
 	{
 		StreamMsg m = new StreamMsg();
-		m.MsgType = MsgType.parentRequest;
+		m.type = MsgType.parentRequest;
 		m.sourceNodeId = nodeId;
-		senders.forEach((id, sender) -> if(id != parent) sender.send(m));
+		senders.forEach((id, sender) -> {if(id != parent) sender.send(m);});
+	}
+
+	public boolean isTerminated(){
+		return false;
 	}
 }

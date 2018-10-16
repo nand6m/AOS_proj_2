@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class TCPClient {
-	public TCPClient(NodeInfo NIobj,int curNode, MsgListener l) {
+	public TCPClient(NodeInfo NIobj,int curNode) {
 		//for(int i=0;i<NIobj.numOfNodes;i++){
 	    for(int i = 0; i < curNode; i++){
 			if(NIobj.adjMtx[curNode][i] == 1){
@@ -35,7 +35,7 @@ public class TCPClient {
 				NIobj.channels.add(client);
 				//NIobj.neighbors.add(i);
 				//For every client request start a new thread 
-				new RunInThread(client, NIobj, l).start();
+				new MessageManager(client, NIobj).start();
 			}
 		}	 
 	}		

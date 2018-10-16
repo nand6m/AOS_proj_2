@@ -1,11 +1,13 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest, broadcast};
+import java.util.HashMap;
+
+enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest, broadcast, convergecast_ack};
 public class StreamMsg implements Serializable {
 	int sourceNodeId;	
 	int immediateSourceNodeId;
 	MsgType type;
-	string message;
+	String message;
 
 	public StreamMsg(){
 		sourceNodeId = -1;

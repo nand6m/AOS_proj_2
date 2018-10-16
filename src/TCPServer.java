@@ -33,7 +33,7 @@ public class TCPServer {
 		}
 	}	
 
-	public void listenforinput(MsgListener l){
+	public void listenforinput(){
 		//Listen and accept for any client connections
 		int count=0;
 		//try{	
@@ -62,7 +62,7 @@ public class TCPServer {
 					System.exit(1);
 				}
 				// For every client request start a new thread 
-				new RunInThread(socket, NIobj, l).start();
+				new MessageManager(socket, NIobj).start();
 			}
 		//}
 		/*finally {
