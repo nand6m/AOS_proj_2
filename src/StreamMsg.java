@@ -1,8 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest, broadcast, convergecast_ack};
+enum MsgType{neighbor,okay,terminate,PACK,NACK,parentRequest, broadcast, convergeCast_ack};
 public class StreamMsg implements Serializable {
 	int sourceNodeId;	
 	int immediateSourceNodeId;
