@@ -1,8 +1,12 @@
 import java.util.HashMap; 
+import java.util.ArrayList;
 
 public class Broadcast implements MsgListener, Broadcaster
 {
 	spanningTreeNode myNode;
+	Integer parent;
+	ArrayList<Integer> children;
+	HashMap<Integer, Sender> senders;
 	HashMap<Integer, Integer> counterHashMap = new HashMap<Integer, Integer>();
 	HashMap<Integer, Integer> immediateSourceHashMap = new HashMap<Integer, Integer>();
 	int counterValue, max_counterValue, node;
@@ -10,6 +14,9 @@ public class Broadcast implements MsgListener, Broadcaster
 	public Broadcast(spanningTreeNode node)
 	{
 		myNode = node;
+		parent = node.parent;
+		children = node.children;
+		senders = node.senders;
 	}
 
 	@Override
