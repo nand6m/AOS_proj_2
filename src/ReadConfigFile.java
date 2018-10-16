@@ -36,13 +36,14 @@ public class ReadConfigFile {
 				if(next == 0){
 					NumNodes=Integer.parseInt(config_input[0]);
 					//System.out.println(NumNodes);
-				    file.numOfNodes = Integer.parseInt(config_input[0]);
+					file.numOfNodes = Integer.parseInt(config_input[0]);
 //					mapFile.minPerActive = Integer.parseInt(config_input[1]);
 //					mapFile.maxPerActive = Integer.parseInt(config_input[2]);
 //					mapFile.minSendDelay = Integer.parseInt(config_input[3]);
 //					mapFile.snapshotDelay = Integer.parseInt(config_input[4]);
 //					mapFile.maxNumber = Integer.parseInt(config_input[5]);
-				    file.adjMtx = new int[NumNodes+1][NumNodes+1];
+					file.adjMtx = new int[NumNodes+1][NumNodes+1];
+					file.ClientConnectionCount= new int[file.numOfNodes+1];
 					next++;
 				}
 //				else if(next == 1 && node_count < NumNodes)
@@ -57,13 +58,14 @@ public class ReadConfigFile {
 					 // System.out.println(config_input[0]);       
 					  //System.out.println(Integer.parseInt(config_input[1]));
 					  
-						file.nodes.add(new Node(node_count,config_input[0],Integer.parseInt(config_input[1])));
+						file.nodes.add(new Node(node_count+1,config_input[0],Integer.parseInt(config_input[1])));
 						node_count++;
 					for(Integer i=2;i<(config_input.length);i++){
 						if(curNode!=Integer.parseInt(config_input[i])) {
 						//System.out.println(Integer.parseInt(config_input[i]));
 						file.adjMtx[curNode][Integer.parseInt(config_input[i])] = 1;
 						file.adjMtx[Integer.parseInt(config_input[i])][curNode] = 1;
+						file.ClientConnectionCount[curNode] = config_input.length - 2;
 						}
 					}
 					curNode++;

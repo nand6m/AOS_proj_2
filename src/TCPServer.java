@@ -12,7 +12,8 @@ public class TCPServer {
 	
 	public TCPServer(NodeInfo NIobj) {
 		this.NIobj= NIobj;		
-		ServerPort= NIobj.nodes.get(NIobj.id).port;
+		//Node ids start from 1
+		ServerPort= NIobj.nodes.get(NIobj.id - 1).port;
 		
 		try {
 			listener= new ServerSocket(ServerPort);
@@ -37,6 +38,7 @@ public class TCPServer {
 		//Listen and accept for any client connections
 		int count=0;
 		//try{	
+			System.out.println(NIobj.channels.size());
 			while (NIobj.ClientConnectionCount[NIobj.id]!=NIobj.channels.size()) {
 				try {
 					socket = listener.accept();

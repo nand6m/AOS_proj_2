@@ -3,9 +3,7 @@ import java.io.IOException;
 public class Main {
 	static NodeInfo NIobj=new NodeInfo();
 
-	public static void main(String[] args) throws IOException, InterruptedException {
-		
-		
+	public static void main(String[] args) throws IOException, InterruptedException {	
 		NIobj = ReadConfigFile.readConfigFile(args[1]);
 		NIobj.id = Integer.parseInt(args[0]);
 		for(int i=0;i<NIobj.nodes.size();i++){
@@ -21,5 +19,6 @@ public class Main {
 		if(NIobj.id == 1){
 			stn.initiateConstruction();
 		}
+		MessageManager.joinAllThreads();
 	}
 }
