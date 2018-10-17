@@ -9,6 +9,7 @@ public class spanningTreeNode implements MsgListener
 	int nodeId;
 	//Map to get sender from nodeId
 	HashMap<Integer, Sender> senders;
+	boolean terminated;
 
 	public void addSender(int neighbor, Sender s)
 	{
@@ -22,6 +23,7 @@ public class spanningTreeNode implements MsgListener
 		parent = -1;
 		children = new ArrayList<Integer>();
 		ackReceived = 0;
+		terminated = false;
 	}
 
 	public spanningTreeNode(int myNode, HashMap<Integer, Sender> neighbors)
@@ -61,11 +63,18 @@ public class spanningTreeNode implements MsgListener
 		{
 			if(nodeId == parent)
 			{
-				
+				if(ackReceived == senders.size())
+				{
+					terminated = true;
+					System.out.println("Children: " + children);
+				}	
 			}
 			else
 			{
+				terminated = true;
 				sendPACK();
+				System.out.println("Parent:" + parent);
+				System.out.println("Children: " + children);
 			}
 		}
 		return true;		
@@ -102,6 +111,6 @@ public class spanningTreeNode implements MsgListener
 	}
 
 	public boolean isTerminated(){
-		return false;
+		return terminated;
 	}
 }
