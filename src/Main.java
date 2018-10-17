@@ -16,7 +16,9 @@ public class Main {
 		TCPServer server = new TCPServer(NIobj);		
 		TCPClient client = new TCPClient(NIobj, NIobj.id);
 		server.listenforinput();
+		System.out.println("All connections done!");
 		if(NIobj.id == 1){
+			System.out.println("Initiating Spanning Tree construction");
 			stn.initiateConstruction();
 		}
 		MessageManager.joinAllThreads();

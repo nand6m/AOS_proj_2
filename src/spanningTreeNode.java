@@ -11,7 +11,7 @@ public class spanningTreeNode implements MsgListener
 	HashMap<Integer, Sender> senders;
 	boolean terminated;
 
-	public void addSender(int neighbor, Sender s)
+	public synchronized void addSender(int neighbor, Sender s)
 	{
 		senders.put(neighbor, s);
 	}	
@@ -35,7 +35,7 @@ public class spanningTreeNode implements MsgListener
 		ackReceived = 0;
 	}
 
-	public boolean receive(StreamMsg m)
+	public synchronized boolean receive(StreamMsg m)
 	{
 		if(m.type == MsgType.PACK)
 		{
@@ -80,13 +80,13 @@ public class spanningTreeNode implements MsgListener
 		return true;		
 	}
 
-	public void initiateConstruction()
+	public synchronized void initiateConstruction()
 	{
 		parent = this.nodeId;
 		sendParentRequests();
 	}
 
-	public void sendPACK()
+	public synchronized void sendPACK()
 	{
 		StreamMsg m = new StreamMsg();
 		m.type = MsgType.PACK;
@@ -94,7 +94,7 @@ public class spanningTreeNode implements MsgListener
 		senders.get(parent).send(m);
 	}
 
-	public void sendNACK(int destination)
+	public synchronized void sendNACK(int destination)
 	{
 		StreamMsg m = new StreamMsg();
 		m.type = MsgType.NACK;
@@ -102,7 +102,7 @@ public class spanningTreeNode implements MsgListener
 		senders.get(destination).send(m);
 	}
 
-	void sendParentRequests()
+	synchronized void sendParentRequests()
 	{
 		StreamMsg m = new StreamMsg();
 		m.type = MsgType.parentRequest;
