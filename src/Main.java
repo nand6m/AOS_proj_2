@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+
+import sun.misc.Queue;
 
 public class Main {
 	static NodeInfo NIobj=new NodeInfo();
@@ -32,6 +35,16 @@ public class Main {
 		m.message = "Message from node " + NIobj.id;
 		System.out.println("Sending/Broadcasting message: " + m.message);
 		b.broadcast(m);
+		
+		
+		BlockingQueue q = (BlockingQueue) new Queue();
+	     Producer p = new Producer(q);
+	     Consumer c = new Consumer(q);
+	     
+	     new Thread(p).start();
+	     new Thread(c).start();
+	     
+	     
 		MessageManager.joinAllThreads();
 	}
 }
