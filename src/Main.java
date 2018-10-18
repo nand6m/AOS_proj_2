@@ -22,6 +22,16 @@ public class Main {
 			System.out.println("Initiating Spanning Tree construction");
 			stn.initiateConstruction();
 		}
+		System.out.println(stn.isTerminated());
+		while(!stn.isTerminated());
+		Broadcast b = new Broadcast(stn);
+		MessageManager.setBroadcast(b);
+		Thread.sleep(2000);
+
+		StreamMsg m = new StreamMsg();
+		m.message = "Message from node " + NIobj.id;
+		System.out.println("Sending/Broadcasting message: " + m.message);
+		b.broadcast(m);
 		MessageManager.joinAllThreads();
 	}
 }

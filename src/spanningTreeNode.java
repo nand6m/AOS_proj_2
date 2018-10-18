@@ -110,7 +110,7 @@ public class spanningTreeNode implements MsgListener
 		senders.forEach((id, sender) -> {if(id != parent) sender.send(m);});
 	}
 
-	public boolean isTerminated(){
+	public synchronized  boolean isTerminated(){
 		return terminated;
 	}
 }

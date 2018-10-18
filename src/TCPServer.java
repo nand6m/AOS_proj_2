@@ -38,7 +38,7 @@ public class TCPServer {
 		//Listen and accept for any client connections
 		int count=0;
 		//try{	
-			System.out.println(NIobj.channels.size());
+			//System.out.println(NIobj.channels.size());
 			while (NIobj.ClientConnectionCount[NIobj.id]!=NIobj.channels.size()) {
 				try {
 					socket = listener.accept();
@@ -49,7 +49,7 @@ public class TCPServer {
 					NIobj.channels.add(socket);
 					//NIobj.neighbors.add(i);
 					
-					System.out.println("Client connection accepted by server"+NIobj.id+" #connections= "+ count + " "+NIobj.ClientConnectionCount[NIobj.id]);
+					System.out.println("Client connection accepted by server"+NIobj.id+" #connections= "+ count);
 					
 					if(count==NIobj.ClientConnectionCount[NIobj.id])
 					{

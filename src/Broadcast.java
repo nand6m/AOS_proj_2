@@ -20,7 +20,7 @@ public class Broadcast implements MsgListener, Broadcaster
 	}
 
 	@Override
-	public boolean receive(StreamMsg m)
+	public synchronized boolean receive(StreamMsg m)
 	{
 		//To send message to node i, node.senders.get(i).send(m)
 		StreamMsg msg = new StreamMsg();
@@ -30,10 +30,13 @@ public class Broadcast implements MsgListener, Broadcaster
 
 		if(m.type== MsgType.broadcast)
 		{			
+			System.out.println("Message received: " + m.message);
+			msg.message = m.message;
 			// flood the message to its neighbours except m.sourceNodeId (immediate source)
 			// Looping through 'Children' 
 
 			immediateSourceHashMap.put(m.sourceNodeId, m.immediateSourceNodeId);
+			counterHashMap.put(m.sourceNodeId, 0);
 			for(int i=0; i< children.size() ; i++)
 			{
 				node = children.get(i);
@@ -42,7 +45,7 @@ public class Broadcast implements MsgListener, Broadcaster
 					//message = nodeID + "BROADCAST_MSG";
 					// Send broadcast message -> call send(m)
 					myNode.senders.get(node).send(msg);
-					System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
+					//System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
 				}
 			}
 
@@ -53,7 +56,7 @@ public class Broadcast implements MsgListener, Broadcaster
 					//message = nodeID + "BROADCAST_MSG";
 					// Send broadcast message -> call send(m)
 					myNode.senders.get(parent).send(msg);
-					System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
+					//System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
 				}
 			}
 
@@ -72,10 +75,20 @@ public class Broadcast implements MsgListener, Broadcaster
 			// Maximum counter value is (neighbours-1)
 			max_counterValue = (myNode.parent == myNode.nodeId) ? 0:1;
 			max_counterValue += myNode.children.size() -1;
-			if(counterValue == max_counterValue)
+			if(counterValue >= max_counterValue)
 			{
-				counterHashMap.put(m.sourceNodeId, 0);
-				sendconvergeCast_ack(msg);
+				if(m.sourceNodeId == myNode.nodeId)
+				{
+					if(counterValue >= max_counterValue + 1)
+					{
+						System.out.println("Broadcast has been successful!");
+					}
+				}
+				else
+				{
+					counterHashMap.put(m.sourceNodeId, 0);
+					sendconvergeCast_ack(msg);
+				}
 			}
 		}
 		//Return any value for now
@@ -84,8 +97,12 @@ public class Broadcast implements MsgListener, Broadcaster
 
 	//This function will be called from outside. Do not call this function in this class
 	@Override
-	public void broadcast(StreamMsg m)
+	public synchronized void broadcast(StreamMsg m)
 	{
+		counterHashMap.put(myNode.nodeId, 0);
+		m.type = MsgType.broadcast;
+		m.sourceNodeId = myNode.nodeId;
+		m.immediateSourceNodeId = myNode.nodeId;
 		//To send message to node i, node.senders.get(i).send(m)
 		for(int i=0; i< myNode.children.size() ; i++)
 		{
@@ -93,14 +110,14 @@ public class Broadcast implements MsgListener, Broadcaster
 			//message = nodeID + "BROADCAST_MSG";
 			// Send broadcast message -> call send(m)
 			myNode.senders.get(node).send(m);
-			System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
+			//System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
 		}
 		if(myNode.parent != myNode.nodeId)
 		{
 			//message = nodeID + "BROADCAST_MSG";
 			// Send broadcast message -> call send(m)
 			myNode.senders.get(myNode.parent).send(m);
-			System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
+			//System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
 		}
 	}
 
@@ -125,7 +142,7 @@ public class Broadcast implements MsgListener, Broadcaster
 	}
 
 	@Override
-	public boolean isTerminated()
+	public synchronized boolean isTerminated()
 	{
 		//No need to modify
 		return false;
