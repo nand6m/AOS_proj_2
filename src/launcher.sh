@@ -11,9 +11,9 @@ PROJDIR=$DCDIR/$RELDIR
 
 # Directory where the config file is located on your local system
 #CONFIGNAME=config_grade.txt
-#CONFIGNAME=config_20nodes.txt
+CONFIGNAME=config_20.txt
 #CONFIGNAME=config_10nodes.txt
-CONFIGNAME=config.txt
+#CONFIGNAME=config.txt
 CONFIGLOCAL=$HOME/Desktop/$RELDIR/src/$CONFIGNAME
 CONFIGREMOTE=$PROJDIR/src/$CONFIGNAME
 
@@ -30,6 +30,7 @@ echo 'Compiled'
 
 #Move
 scp *.java $netid@dc01.utdallas.edu:$RELDIR/src/
+scp *.txt $netid@dc01.utdallas.edu:$RELDIR/src/
 ssh $netid@dc01.utdallas.edu "./$RELDIR/src/Compile.sh"
 echo 'Deployment complete'
 

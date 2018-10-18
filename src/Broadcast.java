@@ -3,6 +3,10 @@ import java.util.ArrayList;
 
 public class Broadcast implements MsgListener, Broadcaster
 {
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_CYAN = "\u001B[36m";
+
 	spanningTreeNode myNode;
 	Integer parent;
 	ArrayList<Integer> children;
@@ -17,6 +21,9 @@ public class Broadcast implements MsgListener, Broadcaster
 		parent = node.parent;
 		children = node.children;
 		senders = node.senders;
+		max_counterValue = (myNode.parent == myNode.nodeId) ? 0:1;
+		max_counterValue += myNode.children.size() -1;
+		counterHashMap.put(myNode.nodeId, max_counterValue + 1);
 	}
 
 	@Override
@@ -30,7 +37,7 @@ public class Broadcast implements MsgListener, Broadcaster
 
 		if(m.type== MsgType.broadcast)
 		{			
-			System.out.println("Message received: " + m.message);
+			System.out.println(ANSI_CYAN + m.message + ANSI_RESET);
 			msg.message = m.message;
 			// flood the message to its neighbours except m.sourceNodeId (immediate source)
 			// Looping through 'Children' 
@@ -73,15 +80,14 @@ public class Broadcast implements MsgListener, Broadcaster
 			counterValue = counterHashMap.get(m.sourceNodeId)+1;
 			counterHashMap.put(m.sourceNodeId, counterValue);
 			// Maximum counter value is (neighbours-1)
-			max_counterValue = (myNode.parent == myNode.nodeId) ? 0:1;
-			max_counterValue += myNode.children.size() -1;
 			if(counterValue >= max_counterValue)
 			{
 				if(m.sourceNodeId == myNode.nodeId)
 				{
-					if(counterValue >= max_counterValue + 1)
+					if(counterValue == max_counterValue + 1)
 					{
-						System.out.println("Broadcast has been successful!");
+						//System.out.println("Broadcast has been successful!");
+						notify();
 					}
 				}
 				else
@@ -99,6 +105,16 @@ public class Broadcast implements MsgListener, Broadcaster
 	@Override
 	public synchronized void broadcast(StreamMsg m)
 	{
+		while(counterHashMap.get(myNode.nodeId) != max_counterValue + 1)
+		{
+			try{
+				wait();
+			}
+			catch(InterruptedException ie){
+				ie.printStackTrace();
+				return;
+			}
+		}	
 		counterHashMap.put(myNode.nodeId, 0);
 		m.type = MsgType.broadcast;
 		m.sourceNodeId = myNode.nodeId;
