@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import sun.misc.Queue;
 
@@ -37,14 +38,14 @@ public class Main {
 		b.broadcast(m);
 		
 		
-		BlockingQueue q = (BlockingQueue) new Queue();
+		BlockingQueue<String> q = new LinkedBlockingDeque<String>();
 	     Producer p = new Producer(q);
-	     Consumer c = new Consumer(q);
+	     Consumer c = new Consumer(q,b);
 	     
-	     new Thread(p).start();
-	     new Thread(c).start();
-	     
-	     
+	     p.start();
+	     c.start();
+		 p.join();
+		 c.join();
 		MessageManager.joinAllThreads();
 	}
 }

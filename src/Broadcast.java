@@ -136,7 +136,12 @@ public class Broadcast implements MsgListener, Broadcaster
 			//System.out.println("\n"+"Broadcast Message sent from " + myNode + " to " + node);
 		}
 	}
-
+	
+	public synchronized void broadcast(String s) {
+		StreamMsg m = new StreamMsg();
+		m.message = s;	
+	}
+	
 	void sendOkay(StreamMsg m)
 	{
 		m.type = MsgType.okay;
