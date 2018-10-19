@@ -2,8 +2,6 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import sun.misc.Queue;
-
 public class Main {
 	static NodeInfo NIobj=new NodeInfo();
 
@@ -32,20 +30,22 @@ public class Main {
 		MessageManager.setBroadcast(b);
 		Thread.sleep(2000);
 
-		StreamMsg m = new StreamMsg();
-		m.message = "Message from node " + NIobj.id;
-		System.out.println("Sending/Broadcasting message: " + m.message);
-		b.broadcast(m);
+		//StreamMsg m = new StreamMsg();
+		//m.message = "Message from node " + NIobj.id;
+		//System.out.println("Sending/Broadcasting message: " + m.message);
+		//b.broadcast(m);
 		
 		
 		BlockingQueue<String> q = new LinkedBlockingDeque<String>();
-	     Producer p = new Producer(q);
-	     Consumer c = new Consumer(q,b);
+		//Producer reads std I/O and puts in queue
+		Producer p = new Producer(q);
+		//Consumer reads from queue and does broadcast
+	     	Consumer c = new Consumer(q,b);
 	     
-	     p.start();
-	     c.start();
-		 p.join();
-		 c.join();
+	     	p.start();
+	    	c.start();
+		p.join();
+		c.join();
 		MessageManager.joinAllThreads();
 	}
 }

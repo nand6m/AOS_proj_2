@@ -140,6 +140,8 @@ public class Broadcast implements MsgListener, Broadcaster
 	public synchronized void broadcast(String s) {
 		StreamMsg m = new StreamMsg();
 		m.message = s;	
+		m.type = MsgType.broadcast;
+		broadcast(m);
 	}
 	
 	void sendOkay(StreamMsg m)

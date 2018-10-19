@@ -10,7 +10,9 @@ class Producer extends Thread{
 	       while (true) {
 	    	   scanner = new Scanner(System. in);
 	    	   String msg = scanner.nextLine();
-	    	   queue.put(msg); }
+                   //System.out.println("Input msg "+msg);
+	    	   queue.put(msg); 
+		}
 	     } catch (InterruptedException ex) { 
 	    	 System.out.println(ex);
 	     }
