@@ -53,7 +53,7 @@ public class MessageManager extends Thread implements MsgListener, Sender{
 		//DataInputStream dis=null;
 		try {
 			ois = new ObjectInputStream(socket.getInputStream());
-			//System.out.println("Msg recvd");		
+			//System.out.println("Message received");		
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();

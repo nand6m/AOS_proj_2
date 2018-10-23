@@ -5,10 +5,6 @@ import java.util.ArrayList;
 
 public class Broadcast implements MsgListener, Broadcaster
 {
-	public static final String ANSI_GREEN = "\u001B[32m";
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_CYAN = "\u001B[36m";
-
 	spanningTreeNode myNode;
 	Integer parent;
 	ArrayList<Integer> children;
@@ -60,7 +56,6 @@ public class Broadcast implements MsgListener, Broadcaster
 				terminateReceived = true;
 				terminatingNode = m.sourceNodeId;
 			}
-			//System.out.println(ANSI_CYAN + m.message + ANSI_RESET);
 			try {
 				messages.put(m.message);
 			} catch (InterruptedException e) {

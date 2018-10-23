@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class Main {
 	static NodeInfo NIobj=new NodeInfo();
@@ -35,12 +33,10 @@ public class Main {
 		//System.out.println("Sending/Broadcasting message: " + m.message);
 		//b.broadcast(m);
 		
-		
-		BlockingQueue<String> q = new LinkedBlockingDeque<String>();
 		//Producer reads standard I/O and puts in queue
-		Producer p = new Producer(q);
+		Producer p = new Producer(b);
 		//Consumer reads from queue and does broadcast
-		Consumer c = new Consumer(q,b); 
+		Consumer c = new Consumer(b); 
 		p.start();
 	    c.start();
 		p.join();
