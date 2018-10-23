@@ -8,14 +8,20 @@ class Consumer extends Thread {
 	   this.b = b;
 	  }
    public void run() {
-     try {
-       while (true) {
-    	 String msg = queue.take();
-         b.broadcast(msg);
-       }
-     } catch (InterruptedException ex) { 
-    	 System.out.println(ex);
-     }
+	   try {
+		   while (true) {
+			   String msg = queue.take();
+			   if(msg.equals("exit") || msg.equals("Exit"))
+			   {
+				   b.terminate();
+			   }
+			   else
+			   {
+				   b.broadcast(msg);
+			   }
+		   }
+	   } catch (InterruptedException ex) { 
+		   System.out.println(ex);
+	   }
    }
-  // void consume(Object x) { ... }
- }
+}

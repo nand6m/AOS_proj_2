@@ -14,7 +14,7 @@ class Producer extends Thread{
 	    	   queue.put(msg); 
 		}
 	     } catch (InterruptedException ex) { 
-	    	 System.out.println(ex);
+	    	 ex.printStackTrace();
 	     }
 	   }
 	  // Object produce() { ... }

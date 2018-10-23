@@ -37,13 +37,12 @@ public class Main {
 		
 		
 		BlockingQueue<String> q = new LinkedBlockingDeque<String>();
-		//Producer reads std I/O and puts in queue
+		//Producer reads standard I/O and puts in queue
 		Producer p = new Producer(q);
 		//Consumer reads from queue and does broadcast
-	     	Consumer c = new Consumer(q,b);
-	     
-	     	p.start();
-	    	c.start();
+		Consumer c = new Consumer(q,b); 
+		p.start();
+	    c.start();
 		p.join();
 		c.join();
 		MessageManager.joinAllThreads();

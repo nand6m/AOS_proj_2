@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
@@ -135,16 +133,16 @@ public class MessageManager extends Thread implements MsgListener, Sender{
 		else if(m.type == MsgType.PACK || m.type == MsgType.NACK || m.type == MsgType.parentRequest){
 			stn.receive(m);
 		}
-		else if(m.type == MsgType.broadcast || m.type == MsgType.convergeCast_ack){
-			broadcast.receive(m);
+		else if(m.type == MsgType.broadcast || m.type == MsgType.convergeCast_ack || m.type == MsgType.broadcast_terminate){
+			isRunning = !broadcast.receive(m);
 		}
-		return false;
+		return !isRunning;
 	}
 
 	@Override
 	public boolean isTerminated()
 	{
-		return false;
+		return !isRunning;
 	}
 
 	void initiate()
