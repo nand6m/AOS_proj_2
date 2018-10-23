@@ -28,10 +28,7 @@ public class Main {
 		MessageManager.setBroadcast(b);
 		Thread.sleep(2000);
 
-		//StreamMsg m = new StreamMsg();
-		//m.message = "Message from node " + NIobj.id;
-		//System.out.println("Sending/Broadcasting message: " + m.message);
-		//b.broadcast(m);
+		new BroadcastTester(b, NIobj.numOfNodes);
 		
 		//Producer reads standard I/O and puts in queue
 		Producer p = new Producer(b);
