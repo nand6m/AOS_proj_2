@@ -14,7 +14,7 @@ public class Main {
 		MessageManager.setSpanningTreeNode(stn);
 		 
 		TCPServer server = new TCPServer(NIobj);		
-		TCPClient client = new TCPClient(NIobj, NIobj.id);
+		new TCPClient(NIobj, NIobj.id);
 		server.listenforinput();
 		System.out.println("All connections done!");
 		if(NIobj.id == 1){
@@ -22,7 +22,6 @@ public class Main {
 			System.out.println("Initiating Spanning Tree construction");
 			stn.initiateConstruction();
 		}
-		System.out.println(stn.isTerminated());
 		while(!stn.isTerminated());
 		Broadcast b = new Broadcast(stn);
 		MessageManager.setBroadcast(b);
