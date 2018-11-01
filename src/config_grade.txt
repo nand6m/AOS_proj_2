@@ -1,0 +1,28 @@
+#
+# Configuration file for CS/CE 6378 Project 2
+# (Fall 2018)
+#
+# As per the "shell" convention, anything following a hash sign is
+# a comment and should be ignored by the parser.
+
+
+
+# nodes 
+10 
+
+
+# Format is:
+# Hostname Port Neighbor List 
+dc11 2222 1 2
+dc01 2222 11 3 4 6
+dc02 2222 11 3 5 7
+dc03 2222 1 2 4 5 
+dc04 2222 1 3 6 8 10
+dc05 2222 2 3 7 9 10
+dc06 2222 1 4 8
+dc07 2222 2 5 9
+dc08 2222 4 6 10
+dc09 2222 5 7 10
+dc10 2222 4 5 8 9
+
+
