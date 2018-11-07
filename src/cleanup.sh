@@ -9,8 +9,8 @@ RELDIR=broadcastService/AOS_proj_2
 PROJDIR=$DCDIR/$RELDIR
 
 # Directory where the config file is located on your local system
-#CONFIGNAME=config_grade.txt
-CONFIGNAME=config_20.txt
+CONFIGNAME=config_grade.txt
+#CONFIGNAME=config_20.txt
 #CONFIGNAME=config_10nodes.txt
 #CONFIGNAME=config.txt
 CONFIGLOCAL=$HOME/Desktop/$RELDIR/src/$CONFIGNAME

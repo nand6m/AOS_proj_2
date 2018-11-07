@@ -18,14 +18,14 @@ public class Main {
 		server.listenforinput();
 		System.out.println("All connections done!");
 		if(NIobj.id == 1){
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 			System.out.println("Initiating Spanning Tree construction");
 			stn.initiateConstruction();
 		}
 		while(!stn.isTerminated());
 		Broadcast b = new Broadcast(stn);
 		MessageManager.setBroadcast(b);
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 
 		new BroadcastTester(b, NIobj.numOfNodes);
 		

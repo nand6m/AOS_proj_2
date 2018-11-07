@@ -6,8 +6,8 @@ public class BroadcastTester {
 		public BroadcastTester(Broadcast b,Integer N) throws InterruptedException
 		{		
 			this.b = b;
-			int msgCnt = 100;//#messages to be sent
-			int max = 1000;
+			int msgCnt = 10;//#messages to be sent
+			int max = 100;
 			int sum = 0;
 			
 			for(Integer i = 0; i < msgCnt; i++) {
